@@ -49,9 +49,9 @@ client.on("interactionCreate", async interaction => {
     
     //  check if the user as a valid role
     const currUserRoles = interaction.member.roles.cache
-    const authorized = false;
+    let authorized = false;
     Array.from(currUserRoles).forEach(([key, value]) => {
-        if(client.defaultAllowedRoles.some(x => x.key == key)){
+        if(client.defaultAllowedRoles.some(x => x == value)){
             authorized = true;
             return;
         }
