@@ -31,8 +31,8 @@ client.on("ready", () => {
     let leadershipRole = guild.roles.cache.get(role_leadership_id);
 
     //  set the default roles allowed to use this bot
-    client.defaultAllowedRoles.set(adminRole);
-    client.defaultAllowedRoles.set(leadershipRole);
+    client.defaultAllowedRoles.set(role_administrator_id, adminRole);
+    client.defaultAllowedRoles.set(role_leadership_id, leadershipRole);
 
     //  set the bot's status
     client.user.setActivity('What is my purpose?');
@@ -48,7 +48,16 @@ client.on("interactionCreate", async interaction => {
 	if (!command) return;
     
     //  check if the user as a valid role
-    if(!interaction.member.roles.cache.some(r=>client.defaultAllowedRoles)){
+    const currUserRoles = interaction.member.roles.cache
+    const authorized = false;
+    Array.from(currUserRoles).forEach(([key, value]) => {
+        if(client.defaultAllowedRoles.some(x => x.key == key)){
+            authorized = true;
+            return;
+        }
+    });
+
+    if(!authorized){
         await interaction.reply({ content: "You're not permitted to use this command!"});
         return;
     }
