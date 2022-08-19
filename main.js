@@ -1,8 +1,8 @@
 // Require the necessary discord.js classes
 const fs = require('node:fs');
 const path = require('node:path');
-const { Client, Collection, GatewayIntentBits } = require("discord.js");
-const { token,  guildId } = require("./config.json");
+const { Client, Collection, GatewayIntentBits, ActivityType } = require("discord.js");
+const { token,  guildId, role_administrator_id, role_leadership_id } = require("./config.json");
 
 //  Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
@@ -27,16 +27,15 @@ client.on("ready", () => {
     //  Get the GRS Server
     const guild = client.guilds.cache.get(guildId);
 
-    console.log(guild);
+    let adminRole = guild.roles.cache.get(role_administrator_id);
+    let leadershipRole = guild.roles.cache.get(role_leadership_id);
 
-    let adminRole = guild.roles.cache.get('1007791008001572904');
-    let leadershipRole = guild.roles.cache.get('1007792009618129079');
-
+    //  set the default roles allowed to use this bot
     client.defaultAllowedRoles.set(adminRole);
     client.defaultAllowedRoles.set(leadershipRole);
 
-    console.log(adminRole);
-    console.log(leadershipRole);
+    //  set the bot's status
+    client.user.setActivity('What is my purpose?');
 
     console.log(`Logged in as ${client.user.tag}!`);
 });
