@@ -38,6 +38,7 @@ module.exports = {
             ].join('\r\n');
 
             const filePath = path.join(__dirname, '../exports', 'GRS_Active_Members_Export.csv');
+            console.log(filePath);
             fs.writeFileSync(filePath, csv);
             const file = new AttachmentBuilder(filePath);
 
